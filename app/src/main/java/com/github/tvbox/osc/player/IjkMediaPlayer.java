@@ -85,6 +85,12 @@ public class IjkMediaPlayer extends IjkPlayer {
         }
         setDataSourceHeader(headers);
         mMediaPlayer.setOption(tv.danmaku.ijk.media.player.IjkMediaPlayer.OPT_CATEGORY_FORMAT, "protocol_whitelist", "ijkio,ffio,async,cache,crypto,file,http,https,ijkhttphook,ijkinject,ijklivehook,ijklongurl,ijksegment,ijktcphook,pipe,rtp,tcp,tls,udp,ijkurlhook,data");
+        // musebox: ijk 走 native ffmpeg 自己做 TLS 握手，不经 Java 层；
+        // 老系统 native 证书库过旧，API<22 时关闭 ijk 的服务端证书校验，
+        // 否则 https 播放地址在老盒子上仍会握手失败（Exo 链路不受影响）。
+        if (android.os.Build.VERSION.SDK_INT < 22) {
+            mMediaPlayer.setOption(tv.danmaku.ijk.media.player.IjkMediaPlayer.OPT_CATEGORY_FORMAT, "tls_verify", 0);
+        }
         super.setDataSource(path, null);
     }
 

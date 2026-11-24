@@ -17,6 +17,10 @@
    协商不出第一档时自动落兼容档，不再直接失败。
 4. 接入点：OkGo 全局客户端、播放器（Exo）客户端、DoH 引导客户端、字幕下载
    客户端统一走 `LegacyTls.applyTo()`；`HttpsURLConnection` 设置默认工厂兜底。
+5. **ijkPlayer 的 native TLS**（`player/IjkMediaPlayer.java`）：ijk 走 native
+   ffmpeg 自己握手，不经 Java 层；API<22 时设 `tls_verify=0` 关掉它的证书
+   校验，绕过老系统 native 证书库过旧。此项为参考 newbox 交接清单补入，
+   只影响 ijk 播放链路，Exo 链路仍走完整校验。
 5. 版本号 20230302-0924-musebox.1（versionCode 2），包名不变
    （com.github.tvbox.osc），使用 musebox 项目自有签名——与社区打包版签名
    不同，首次安装需先卸载旧版。
