@@ -15,6 +15,7 @@ import com.google.gson.JsonObject;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -46,6 +47,17 @@ public class DefaultConfig {
                         sortData.filters = new ArrayList<>();
                     data.add(sortData);
                 }
+            }
+        }
+        // musebox: 分类过滤——分类名含「伦理」或「擦边」的一律从首页页签移除，
+        // 小孩不会误点进去。只过滤分类，不动影片数据与搜索。此处是所有分类页签
+        // 的统一出口（无论数据来自 API 还是缓存配置），保证过滤一定生效。
+        Iterator<MovieSort.SortData> sortIt = data.iterator();
+        while (sortIt.hasNext()) {
+            MovieSort.SortData sortData = sortIt.next();
+            if (sortData != null && sortData.name != null
+                    && (sortData.name.contains("伦理") || sortData.name.contains("擦边"))) {
+                sortIt.remove();
             }
         }
         if (withMy)
