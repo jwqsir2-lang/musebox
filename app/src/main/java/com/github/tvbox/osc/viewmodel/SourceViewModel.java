@@ -769,9 +769,29 @@ public class SourceViewModel extends ViewModel {
             } catch (Throwable th) {
 
             }
+            filterBlockedSorts(data);
             return data;
         } catch (Exception e) {
             return null;
+        }
+    }
+
+    // musebox: 分类过滤——分类名含「伦理」或「擦边」的直接从分类列表移除，
+    // 页签和入口都不再出现。只过滤分类，不动影片数据与搜索（站长要求）。
+    private static void filterBlockedSorts(AbsSortXml data) {
+        try {
+            if (data == null || data.classes == null || data.classes.sortList == null) {
+                return;
+            }
+            java.util.Iterator<MovieSort.SortData> it = data.classes.sortList.iterator();
+            while (it.hasNext()) {
+                MovieSort.SortData s = it.next();
+                if (s != null && s.name != null
+                        && (s.name.contains("伦理") || s.name.contains("擦边"))) {
+                    it.remove();
+                }
+            }
+        } catch (Throwable ignored) {
         }
     }
 
@@ -787,6 +807,7 @@ public class SourceViewModel extends ViewModel {
                     sort.filters = new ArrayList<>();
                 }
             }
+            filterBlockedSorts(data);
             return data;
         } catch (Exception e) {
             return null;

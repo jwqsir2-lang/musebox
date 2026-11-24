@@ -25,6 +25,12 @@
    （com.github.tvbox.osc），使用 musebox 项目自有签名——与社区打包版签名
    不同，首次安装需先卸载旧版。
 
+## musebox.2 新增：分类过滤
+
+分类名含「伦理」或「擦边」的分类在解析时直接移除（`SourceViewModel` 的
+sortJson/sortXml 两个入口统一过滤，JSON/XML/爬虫源全覆盖），页签和入口
+不再出现。按站长要求只过滤分类，不动影片数据与搜索结果。
+
 ## 与原 Q 版的行为差异（重要）
 
 原 Q 版的 SSL 是"信任所有证书 + 跳过域名校验"。本版改为 anzhuo44tvbox 的
