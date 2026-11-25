@@ -130,6 +130,9 @@ public class OkGoHelper {
         //builder.retryOnConnectionFailure(false);
 
         builder.addInterceptor(loggingInterceptor);
+        // musebox.4: 豆瓣系域名补浏览器 UA + Referer（接口与图片 CDN 均校验），
+        // 否则首页豆瓣热播海报被 doubanio 以 418 拒绝。移植自 anzhuo44tvbox。
+        builder.addInterceptor(new DoubanHeaderInterceptor());
 
         builder.readTimeout(DEFAULT_MILLISECONDS, TimeUnit.MILLISECONDS);
         builder.writeTimeout(DEFAULT_MILLISECONDS, TimeUnit.MILLISECONDS);

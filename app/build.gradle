@@ -7,8 +7,8 @@ android {
         applicationId 'com.github.tvbox.osc'
         minSdkVersion 16
         targetSdkVersion 26
-        versionCode 4
-        versionName '20230302-0924-musebox.3'
+        versionCode 5
+        versionName '20230302-0924-musebox.4'
         multiDexEnabled true
         //设置room的Schema的位置
         javaCompileOptions {
